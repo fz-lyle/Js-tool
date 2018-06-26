@@ -2,7 +2,7 @@
 
 /**
  * 异步加载 script 方法
- * { 参数一 ：需要加载的 script 地址 ，地址相对引入的epic.js而言 必填 }
+ * { 参数一 ：需要加载的 script 地址 ，地址相对引入的epic.js而言 必填 , 参数二 ：传入一个匿名函数 里面可以才可以调用返回的内容 }
  */ 
 
 // 使用方法演示 
@@ -17,22 +17,22 @@
 </script> 
 */
 
-function onScript(url) {
+function onScript(url,callback) {
 
     var script = document.createElement('script');
 
     // callback 可以多加个参数
-    // if (script.readyState) {  // 兼容IE
-    //     script.onreadystatechange = function () {
-    //         if (script.readyState == "complete" || script.readyState == "loaded") {
-    //             callback();
-    //         }
-    //     }
-    // } else {
-    //     script.onload = function () {
-    //         callback();
-    //     }
-    // }
+    if (script.readyState) {  // 兼容IE
+        script.onreadystatechange = function () {
+            if (script.readyState == "complete" || script.readyState == "loaded") {
+                callback();
+            }
+        }
+    } else {
+        script.onload = function () {
+            callback();
+        }
+    }
 
     // 这里写在这里是为了解决 下载太快，IE下发生错误
     script.src = url;
