@@ -1,7 +1,17 @@
-// 性能模块代码
-
 /**
- * 异步加载 script 方法
+ * @author 朱昆鹏
+ * @name 性能优化库
+ */
+
+ /**
+  * @name 性能优化方法列表
+  * 按需加载 script 方法
+  */
+
+var performance = (function () {
+    // 性能模块代码
+/**
+ * @name 异步加载script方法
  * { 参数一 ：需要加载的 script 地址 ，地址相对引入的epic.js而言 必填 , 参数二 ：传入一个匿名函数 里面可以才可以调用返回的内容 }
  */ 
 
@@ -38,3 +48,11 @@ function onScript(url,callback) {
     script.src = url;
     document.head.appendChild(script);
 }
+
+
+// 挂载方法
+performance.onScript = onScript
+    
+}())
+
+module.exports = performance
