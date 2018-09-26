@@ -384,6 +384,36 @@ function xiu() {
 }
 
 
+/**
+ * @class getElementbyClassName 手动实现，以应对没有这个方法的环境
+ */
+Element.prototype.getElementsByClassName = Document.prototype.getElementsByClassName = document.getElementsByClassName || function (_classname) {
+    // 1. 获取 document 下面的所有标签
+    var allElement = document.getElementsByName('*');
+    // 2. 需要符合classname条件的 DOM
+    var lastDomArray = [];
+    for ( var i = 0 ; i < allElement.length ; i++ ) {
+      var lastStrClass = trimSpace(allElement[i].className);
+      // 将处理好的字符串，转为数组，好用于判断
+      var arrayClass = lastStrClass.splice(' ')
+      for ( var j = 0 ; j < arrayClass.length ; j++ ) {
+        if ( arrayClass[j] === _classname ) {
+          lastDomArray.push(allElement[i])
+          break;
+        }
+      }
+    }
+    
+    return lastDomArray;
+    
+    // 格式化字符串方法 ：将字符串中 连续空格，都变为一个空格，然后去掉前后空格
+    function trimSpace (strClass) {
+      var reg = /\s+/g;
+      return strClass.replace(reg,' ').trim();
+    }
+
+}
+
 module.exports = {
     ajax : ajax, // 自己封装的建议 ajax 方法
     danLi : danLi, // 单例模式
